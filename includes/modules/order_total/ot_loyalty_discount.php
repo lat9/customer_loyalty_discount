@@ -16,7 +16,7 @@ class ot_loyalty_discount
         $title,
         $description,
         $enabled,
-        $sort_order
+        $sort_order,
         $output;
 
     protected
@@ -26,7 +26,7 @@ class ot_loyalty_discount
         $calculate_tax,
         $table,
         $loyalty_order_status,
-        $od_pc,
+        $od_pc = 0,
         $deduction,
         $period_string,
         $cum_order_total,
@@ -83,29 +83,40 @@ class ot_loyalty_discount
         global $order;
 
         $od_amount = 0;
+        $od_pc = false;
         $table_cost_group = explode(',', MODULE_LOYALTY_DISCOUNT_TABLE);
         foreach ($table_cost_group as $loyalty_group) {
             $group_loyalty = explode(':', $loyalty_group);
             if ($amount_cum_order >= $group_loyalty[0]) {
-                $od_pc = (float) $group_loyalty[1];
+                $od_pc = (float)$group_loyalty[1];
                 $this->od_pc = $od_pc;
             }
         }
+
+        // -----
+        // If the customer doesn't qualify for a discount, quick return.
+        //
+        if ($od_pc === false) {
+            return 0;
+        }
+
         // Calculate tax reduction if necessary
+        $od_amount = (round((float) $amount_order * 10) / 10) * ($od_pc / 100);
         if ($this->calculate_tax === 'true') {
             // Calculate main tax reduction
             $tod_amount = round($order->info['tax'] * 10) / 10;
             $todx_amount = $tod_amount * ((float) $od_pc / 100);
             $order->info['tax'] -= $todx_amount;
+
             // Calculate tax group deductions
-            reset($order->info['tax_groups']);
+            $todx_amount = 0;
             foreach ($order->info['tax_groups'] as $key => $value) {
                 $god_amount = round($value * 10) / 10 * $od_pc / 100;
                 $order->info['tax_groups'][$key] -= $god_amount;
             }
+            $od_amount += $todx_amount;
         }
-        $od_amount = (round((float) $amount_order * 10) / 10) * ($od_pc / 100);
-        $od_amount += $todx_amount;
+
         return $od_amount;
     }
 
