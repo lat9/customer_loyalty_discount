@@ -1,0 +1,194 @@
+<!doctype html>
+<html dir="ltr" lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Customer Loyalty Discount (Zen-Cart&reg; v1.5.7 and v1.5.8)</title>
+<style>
+body, p, h1, h2, h3, h4, h5, h6, li, td, dd, dt, table, img {
+  font-family: Verdana, AvantGarde, Tahoma, Arial, sans-serif;
+  font-size: 12px;
+  color: black;
+  padding: 0px;
+  margin: 20px;
+}
+H1, H2, H3, H4 {
+  font-weight: bold;
+}
+h1 {
+  font-size: 20px;
+}
+h2 {
+  font-size: 16px;
+  border-top: 1px dashed #000066;
+  padding-top: 5px;
+  color: #000066;
+}
+img {
+    max-width: 95vw;
+    height: auto;
+}
+table { 
+  border-collapse: collapse; 
+}
+th, td {
+  border: 1px solid #000066;
+  padding: 5px;
+  text-align: left;
+}
+ol li, ul li {
+  margin: 0 0 5px;
+}
+ol li ul li, ul li ul li {
+  margin: 0 auto 5px;
+}
+tr td:first-child {
+  font-weight: bold;
+  color: #000066;
+}
+.smaller {
+  font-size: 10px;
+}
+.o {
+  background-color: #f4f4f4;
+}
+</style>
+</head>
+<body>
+<h1>Customer Loyalty Discount for Zen Cart&reg; v1.5.7 and v1.5.8</h1>
+<h3>Version 2.0.0</h3>
+<p>Current support thread at Zen Cart Forums: <a href="https://www.zen-cart.com/showthread.php?226172-Customer-Loyalty-Discount" target="_blank">https://www.zen-cart.com/showthread.php?226172-Customer-Loyalty-Discount</a>.  This software is provided for your use under the GNU General Public License.</p>
+<p>Current Zen Cart download: <a href="https://www.zen-cart.com/downloads.php?do=file&id=1917" target="_blank">https://www.zen-cart.com/downloads.php?do=file&id=1917</a>.</p>
+<p><b>Notes:</b></p>
+<ol>
+    <li>This plugin requires <em>Zen Cart v1.5.7 or later (including v1.5.8)</em> for its proper operation!</li>
+    <li>It's been testing on PHP versions from 7.3 through 8.2.</li>
+</ol>
+
+<h2>What it does</h2>
+<p>This Zen Cart order-total module enables a store to reward its repeat customers with a <em>Loyalty Discount</em> on future orders, based on their previous order-history over a customizable timeframe.  Refer to the <b>Configuration</b> section, below, for details.</p>
+<p>Some of the processing for v2.0.0 has changed from v1.5.1 of the order-total:</p>
+<ol>
+    <li>The <em>Loyalty Discount</em> is no longer subtracted from the order's sub-total when this order-total's sort-order is less than that for the sub-total.</li>
+    <li>Determination of the loyalty period is now based on the actual days-in-month rather than a 31-day look-back per month.</li>
+    <li>You can now provide a comma-separated <em>list</em> of order-status id(s) to determine which orders in the period <em>qualify</em> for the cumulative orders' values.</li>
+    <li>The order-total now validates its <em>Discount Percentage</em> configuration setting when you save those settings.  If a validation issue is found, the order-total will not enable itself on the storefront.</li>
+</ol>
+
+<h2>Installation</h2>
+<p>There are no core-file overwrites in this plugin, but you should <strong>always</strong> backup your cart's database and files prior to making any changes.</p>
+<p><b>Note:</b> If you are <em>upgrading</em> the order-total from a previous version, I strongly suggest that you &quot;Remove&quot; the previous version and then &quot;Install&quot; the updated version.  Many of the order total's configuration settings now have additional instructions!</p>
+<p>Copy the following files to your cart's installation:</p>
+<ol>
+    <li>/includes/languages/english/modules/order_total/ot_loyalty_discount.php</li>
+    <li>/includes/modules/order_total/ot_loyalty_discount.php</li>
+</ol>
+<p>Once you've copied the order-total's files, use your site's admin's <code>Modules :: Order Totals</code> to install and configure, see below, the order-total's settings.</li>
+
+<h2>Uninstall</h2>
+<p>First, &quot;Remove&quot; the order-total module via your admin's <code>Modules :: Order Totals</code> tool, then delete the two files that were copied to your store's file-system.</p>
+
+<h2>Configuration</h2>
+<p>The <em>Loyalty Discount</em> order-total provides the following configuration settings:</p>
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Enable Discount?</td>
+            <td>Indicates whether (<code>true</code>) or not (<code>false</code>, the default) to enable the <em>Customer Loyalty Discount</em> order-total.</td>
+        </tr>
+        <tr>
+            <td>Sort Order</td>
+            <td>Identifies the order in which this order-total is added to the order, if enabled.  Default: 998.<br><br><b>Note:</b> If you have configured this order-total to <em>Include shipping</em> <b>and</b> <em>Include tax</em>, make sure that its sort-order is larger than the like-named setting for the <code>ot_shipping</code> order-total.  Otherwise, the shipping tax will not be available when this order-total performs its calculations!</td>
+        </tr>
+        <tr>
+            <td>Include shipping?</td>
+            <td>Indicates whether (<code>true</code>, the default) or not (<code>false</code>) to also apply the discount to the order's shipping cost.</td>
+        </tr>
+        <tr>
+            <td>Include tax?</td>
+            <td>Indicates whether (<code>true</code>, the default) or not (<code>false</code>) to also apply the discount to the order's tax.<br><br>If this value is <code>true</code>, the product-tax is always discounted; the order's shipping-tax is discounted <em>only if</em> the discount is to include shipping, as set above.</td>
+        </tr>
+        <tr>
+            <td>Recalculate tax?</td>
+            <td>Indicates whether (<code>true</code>) or not (<code>false</code>, the default) to recalculate an order's tax-value as displayed to the customer, based on any deductions calculated.<br><br><b>Note:</b> Setting this value to <code>true</code> when the <em>Sort Order</em> of this order-total is <b>&gt;=</b> that for <code>ot_tax</code> can result in unwanted results!</td>
+        </tr>
+        <tr>
+            <td>Cumulative Order Period</td>
+            <td>Identifies the period over which a customer's previous orders are summed to determine if their previous &quot;spend&quot; qualifies for a deduction, one of:
+                <ul>
+                    <li><code>alltime</code>. <em>All</em> orders placed by the customer.</li>
+                    <li><code>year</code>.  All orders placed by the customer within the past <em>year</em>.  This is the default.</li>
+                    <li><code>month</code>.  All orders placed by the customer within the past <em>month</em>.</li>
+                    <li><code>quarter</code>. All orders places by the customer within the past <em>3 months</em>.</li>
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>Discount Percentage</td>
+            <td>This setting is the <em>most important</em> one!  Here is where you identify the discount for which the customer qualifies based on their cumulative purchases<sup>1</sup>. The value is formatted as a collection of comma-separated <code>amount:discount</code> pairs. For the default setting, <code>1000:5,1500:7.5,2000:10</code>, a customer is granted
+                <ul>
+                    <li>A 5% discount for a cumulative order-total amount &gt;= 1000 and &lt; 1500 in the store's default currency in the specified period.</li>
+                    <li>A 7.5% discount for a cumulative order-total amount &gt;= 1500 and &lt; 2000.</li>
+                    <li>A 10% discount for a cumulative order-total amount &gt;= 2000.</li>
+                </ul>
+                <sup>1</sup> An order <em>qualifies</em> to be included in the discount's cumulative purchases if it was placed within the specified order-period and its current <em>order-status</em> matches the requirements indicated by the <em>Qualifying Order Status</em> setting, described below.
+            </td>
+        </tr>
+        <tr>
+            <td>Qualifying Order Status</td>
+            <td>Identifies the order-status value(s) used to determine if a customer order <em>qualifies</em> to be added to the customer's cumulative order total-amount (the basis for any discount).
+                <ul>
+                    <li>If the value is an empty string, then <b>all</b> order-status values are included.<sup>2</sup></li>
+                    <li>If the value is a <em>single</em> numeric value, e.g. the default value of <code>3</code>, then all orders with an order-status value greater than or equal to the value specified <em>qualify</em>.</li>
+                    <li>If the value is a comma-separated collection of numeric values, e.g. <code>3, 5, 7</code>, than an order <em>qualifies</em> if its order-status is one of the status-values specified.<sup>2</sup></li>
+                </ul>
+                <sup>2</sup> This feature was added in v2.0.0 of the order-total.</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Storefront Processing</h2>
+<p>This section identifies the rules by which the <em>Loyalty Discount</em> calculates its overall discount-amount for a <em>qualified</em> customer:</p>
+<ol>
+    <li>The order's current sub-total, <em>less</em> the total of any gift-certificates, is the initial <code>discount-basis</code>.</li>
+    <li>If the discount is configured to apply to shipping, the order's shipping <em>cost</em> is added to the <code>discount-basis</code>.</li>
+    <li>If the discount is configured to apply to tax:<ol type="a">
+        <li>The tax for all products in the order, <em>other than</em> gift-certificates, is summed and added to the <code>discount-basis</code>.</li>
+        <li>If the discount is configured to apply to the order's shipping-cost, the order's shipping-tax is added to the <code>discount-basis</code>.</li>
+    </ol></li>
+</ol>
+<p>The <em>Loyalty Discount</em> determines the <code>discount-percentage</code> to apply based on the customer's previous purchases, as indicated in the <em>Discount Percentage</em> configuration setting.  An order's final discount-amount (applied to the order) is calculated by multiplying the <code>discount-percentage</code> by the order's <code>discount-basis</code>.</p>
+
+<h2>Version History:</h2>
+<ul>
+    <li>1.5.1, 2019-11-24 (webchills):<ul>
+        <li>Fixes to avoid PHP 7.3 warnings</li>
+    </ul></li>
+    <li>1.5, 2018-03-29 (webchills):<ul>
+        <li>bugfix for gift certificates in cart, code rewritten for PHP 7 and 7.1</li>
+    </ul></li>
+    <li>1.4, 2016-12-04 (PRO-Webs.net):<ul>
+        <li>Versioning update</li>
+    </ul></li>
+    <li>1.3, 2013-06-30 (PRO-Webs.net):<ul>
+        <li>Revived for PHP 5.X and Zen Cart 1.5.X</li>
+    </ul></li>
+    <li>1.2, 2004-06-30 (rainer langheiter (http://rainer.langheiter.com // www.FiloSoFisch.com)):<ul>
+        <li>ported from OSC to ZEN</li>
+    </ul></li>
+    <li>1.1, 2004-04-03 (Clement Nicolaescu (www.osCoders.biz)):<ul>
+        <li>New option added</li>
+    </ul></li>
+    <li>1.0, 2003-06-10 (Simon Pritchard):<ul>
+        <li>Initial Release</li>
+    </ul></li>
+</ul>
+</body>
+</html>
