@@ -8,6 +8,8 @@
  * @copyright Portions Copyright 2003 osCommerce
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
  * @version $Id: ot_loyalty_discount.php 2019-11-24 15:15:00 webchills
+ *
+ * Last updated: v2.0.0, lat9
  */
 class ot_loyalty_discount
 {
@@ -24,7 +26,6 @@ class ot_loyalty_discount
         $currency_decimal_places,
         $discount_table,
         $od_pc,
-        $period_string,
         $cum_order_total;
 
     public function __construct()
@@ -124,9 +125,13 @@ class ot_loyalty_discount
 
         $discount_amount = $this->calculateCredit();
         if ($discount_amount > 0) {
-            $tmp = sprintf(MODULE_LOYALTY_DISCOUNT_INFO, $this->period_string, $currencies->format($this->cum_order_total), $this->od_pc . '%');
+            $shipping_discounted = '';
+            if (MODULE_LOYALTY_DISCOUNT_INC_SHIPPING === 'true') {
+                $shipping_discounted = (MODULE_LOYALTY_DISCOUNT_INC_TAX === 'true') ? MODULE_LOYALTY_DISCOUNT_SHIPPING_WITH_TAX_TEXT : MODULE_LOYALTY_DISCOUNT_SHIPPING_TEXT;
+            }
+            $tax_discounted = (MODULE_LOYALTY_DISCOUNT_INC_TAX === 'true') ? MODULE_LOYALTY_DISCOUNT_TAX_TEXT : '';
             $this->output[] = [
-                'title' => '<div class="ot_loyalty_title">' . $this->title . ':</div>' . $tmp,
+                'title' => $this->title . ':<br><small>' . sprintf(MODULE_LOYALTY_DISCOUNT_INFO, $this->od_pc . '%', $shipping_discounted, $tax_discounted) . '</small>',
                 'text' => '-' . $currencies->format($discount_amount),
                 'value' => $discount_amount,
             ];
@@ -306,23 +311,19 @@ class ot_loyalty_discount
     {
         switch (MODULE_LOYALTY_DISCOUNT_CUMORDER_PERIOD) {
             case 'year':
-                $this->period_string = MODULE_LOYALTY_DISCOUNT_YEAR;
                 $cutoff_timestamp = strtotime('-1 year');
                 break;
 
             case 'quarter':
-                $this->period_string = MODULE_LOYALTY_DISCOUNT_QUARTER;
                 $cutoff_timestamp = strtotime('-3 month');
                 break;
 
             case 'month':
-                $this->period_string = MODULE_LOYALTY_DISCOUNT_MONTH;
                 $cutoff_timestamp = strtotime('-1 month');
                 break;
 
             case 'alltime':
             default:
-                $this->period_string = MODULE_LOYALTY_DISCOUNT_WITHUS;
                 $cutoff_timestamp = 0;
                 break;
         }
