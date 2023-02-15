@@ -170,6 +170,15 @@ tr td:first-child {
 
 <h2>Version History:</h2>
 <ul>
+    <li>2.0.0, 2023-02-16 (lat9):<ul>
+        <li>CHANGE: Refactoring for now-current styling; pre-define all class variables (PHP 7.4+ support).</li>
+        <li>BUGFIX: Correcting PHP notices due to undefined variables.</li>
+        <li>BUGFIX: Use the order's products, not the shopping-cart version, since this is an <code>order</code>-total!</li>
+        <li>CHANGE: Validate the configuration settings and auto-disable if an issue is found.</li>
+        <li>CHANGE: Disallow the discount for guest-purchases.</li>
+        <li>CHANGE: Disallow the discount if a coupon has been used for the order.</li>
+        <li>CHANGE: Update the customer 'messaging' on the order to indicate what elements of the order are discounted.</li>
+    </ul></li>
     <li>1.5.1, 2019-11-24 (webchills):<ul>
         <li>Fixes to avoid PHP 7.3 warnings</li>
     </ul></li>
