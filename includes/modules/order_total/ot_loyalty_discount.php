@@ -112,7 +112,11 @@ class ot_loyalty_discount
     {
         global $order, $currencies;
 
-        if ($this->enabled === false) {
+        // -----
+        // If the constructor has determined that the "Loyalty Discount" should be disabled or if
+        // there's currently a coupon applied to the order, nothing further to do.
+        //
+        if ($this->enabled === false || !empty($_SESSION['cc_id'])) {
             return;
         }
 
