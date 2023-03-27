@@ -57,7 +57,7 @@ tr td:first-child {
 </head>
 <body>
 <h1>Customer Loyalty Discount for Zen Cart&reg; v1.5.7 and v1.5.8</h1>
-<h3>Version 2.0.0</h3>
+<h3>Version 2.0.1</h3>
 <p>Current support thread at Zen Cart Forums: <a href="https://www.zen-cart.com/showthread.php?226172-Customer-Loyalty-Discount" target="_blank">https://www.zen-cart.com/showthread.php?226172-Customer-Loyalty-Discount</a>.  This software is provided for your use under the GNU General Public License.</p>
 <p>Current Zen Cart download: <a href="https://www.zen-cart.com/downloads.php?do=file&id=1917" target="_blank">https://www.zen-cart.com/downloads.php?do=file&id=1917</a>.</p>
 <p><b>Notes:</b></p>
@@ -170,6 +170,12 @@ tr td:first-child {
 
 <h2>Version History:</h2>
 <ul>
+    <li>2.0.1, 2023-03-27 (lat9):<ul>
+        <li>BUGFIX: Correct MySQL Fatal error when an order is to be paid via click of the PPEC button.</li>
+        <li>The following files were changed:<ol>
+            <li>/includes/modules/order_total/ot_loyalty_discount.php</li>
+        </ol></li>
+    </ul></li>
     <li>2.0.0, 2023-02-16 (lat9):<ul>
         <li>CHANGE: Refactoring for now-current styling; pre-define all class variables (PHP 7.4+ support).</li>
         <li>BUGFIX: Correcting PHP notices due to undefined variables.</li>

@@ -9,7 +9,7 @@
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
  * @version $Id: ot_loyalty_discount.php 2019-11-24 15:15:00 webchills
  *
- * Last updated: v2.0.0, lat9
+ * Last updated: v2.0.1, lat9
  */
 class ot_loyalty_discount
 {
@@ -50,7 +50,7 @@ class ot_loyalty_discount
         // -----
         // No loyalty-discount for guest-checkout purchases!
         //
-        if (IS_ADMIN_FLAG === false && zen_in_guest_checkout() === true) {
+        if (IS_ADMIN_FLAG === false && (zen_is_logged_in() === false || zen_in_guest_checkout() === true)) {
             $this->enabled = false;
         } else {
             $this->validateConfiguration();
