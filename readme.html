@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Customer Loyalty Discount (Zen-Cart&reg; v1.5.7 and v1.5.8)</title>
+<title>Customer Loyalty Discount (Zen-Cart&reg; v1.5.8 and later)</title>
 <style>
 body, p, h1, h2, h3, h4, h5, h6, li, td, dd, dt, table, img {
   font-family: Verdana, AvantGarde, Tahoma, Arial, sans-serif;
@@ -53,17 +53,19 @@ tr td:first-child {
 .o {
   background-color: #f4f4f4;
 }
+.removed { text-decoration: line-through; }
+.added { color: #1f45fc; }
 </style>
 </head>
 <body>
-<h1>Customer Loyalty Discount for Zen Cart&reg; v1.5.7 and v1.5.8</h1>
-<h3>Version 2.0.1</h3>
+<h1>Customer Loyalty Discount for Zen Cart&reg; v1.5.8 and later</h1>
+<h3>Version 3.0.0</h3>
 <p>Current support thread at Zen Cart Forums: <a href="https://www.zen-cart.com/showthread.php?226172-Customer-Loyalty-Discount" target="_blank">https://www.zen-cart.com/showthread.php?226172-Customer-Loyalty-Discount</a>.  This software is provided for your use under the GNU General Public License.</p>
 <p>Current Zen Cart download: <a href="https://www.zen-cart.com/downloads.php?do=file&id=1917" target="_blank">https://www.zen-cart.com/downloads.php?do=file&id=1917</a>.</p>
 <p><b>Notes:</b></p>
 <ol>
-    <li>This plugin requires <em>Zen Cart v1.5.7 or later (including v1.5.8)</em> for its proper operation!</li>
-    <li>It's been testing on PHP versions from 7.3 through 8.2.</li>
+    <li>This plugin requires <em>Zen Cart v1.5.8 or later (including v2.1.0)</em> for its proper operation!</li>
+    <li>It's been testing on PHP versions from 7.4 through 8.3.</li>
 </ol>
 
 <h2>What it does</h2>
@@ -83,7 +85,7 @@ tr td:first-child {
 <p><b>Note:</b> If you are <em>upgrading</em> the order-total from a previous version, I strongly suggest that you &quot;Remove&quot; the previous version and then &quot;Install&quot; the updated version.  Many of the order total's configuration settings now have additional instructions!</p>
 <p>Copy the following files to your cart's installation:</p>
 <ol>
-    <li>/includes/languages/english/modules/order_total/ot_loyalty_discount.php</li>
+    <li>/includes/languages/english/modules/order_total/lang.ot_loyalty_discount.php</li>
     <li>/includes/modules/order_total/ot_loyalty_discount.php</li>
 </ol>
 <p>Once you've copied the order-total's files, use your site's admin's <code>Modules :: Order Totals</code> to install and configure, see below, the order-total's settings.</li>
@@ -170,6 +172,13 @@ tr td:first-child {
 
 <h2>Version History:</h2>
 <ul>
+    <li>3.0.0, 2024-08-25 (lat9):<ul>
+        <li>CHANGE: Include zc158+ array-formatted language file; required for zc210 and later.</li>
+        <li>The following files were <span class="added">added</span> or <span class="removed">removed</span>:<ol>
+            <li><span class="added">/includes/languages/english/modules/order_total/lang.ot_loyalty_discount.php</span></li>
+            <li><span class="removed">/includes/languages/english/modules/order_total/ot_loyalty_discount.php</span></li>
+        </ol></li>
+    </ul></li>
     <li>2.0.1, 2023-03-27 (lat9):<ul>
         <li>BUGFIX: Correct MySQL Fatal error when an order is to be paid via click of the PPEC button.</li>
         <li>The following files were changed:<ol>
