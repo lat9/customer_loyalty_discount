@@ -16,6 +16,6 @@ $define = [
     'MODULE_LOYALTY_DISCOUNT_INFO' => 'Because of your previous purchases with us, this order qualifies for a discount of %1$s on its products%2$s%3$s.',
         'MODULE_LOYALTY_DISCOUNT_SHIPPING_TEXT' => ' and shipping-cost',
         'MODULE_LOYALTY_DISCOUNT_SHIPPING_WITH_TAX_TEXT' => ', shipping-cost',
-        'MODULE_LOYALTY_DISCOUNT_TAX_TEXT' =< ' and associated taxes',
+        'MODULE_LOYALTY_DISCOUNT_TAX_TEXT' => ' and associated taxes',
 ];
 return $define;
